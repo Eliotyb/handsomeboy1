@@ -1,0 +1,79 @@
+-- 创建数据库
+CREATE DATABASE IF NOT EXISTS community_groupon DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- 使用数据库
+USE community_groupon;
+
+-- 创建用户表
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) NOT NULL UNIQUE,
+  `password` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `phone` VARCHAR(20) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  `role` INT(11) NOT NULL DEFAULT 0 COMMENT '0: 普通用户, 1: 管理员',
+  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 创建商品表
+CREATE TABLE IF NOT EXISTS `product` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `description` TEXT NOT NULL,
+  `price` DOUBLE(10,2) NOT NULL,
+  `stock` INT(11) NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `status` INT(11) NOT NULL DEFAULT 1 COMMENT '0: 下架, 1: 上架',
+  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 创建秒杀活动表
+CREATE TABLE IF NOT EXISTS `seckill_activity` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `start_time` DATETIME NOT NULL,
+  `end_time` DATETIME NOT NULL,
+  `status` INT(11) NOT NULL DEFAULT 0 COMMENT '0: 未开始, 1: 进行中, 2: 已结束',
+  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 创建秒杀商品表
+CREATE TABLE IF NOT EXISTS `seckill_product` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `activity_id` BIGINT(20) NOT NULL,
+  `product_id` BIGINT(20) NOT NULL,
+  `seckill_price` DOUBLE(10,2) NOT NULL,
+  `seckill_stock` INT(11) NOT NULL,
+  `sold_count` INT(11) NOT NULL DEFAULT 0,
+  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`activity_id`) REFERENCES `seckill_activity` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 创建订单表
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `order_no` VARCHAR(50) NOT NULL UNIQUE,
+  `user_id` BIGINT(20) NOT NULL,
+  `product_id` BIGINT(20) NOT NULL,
+  `seckill_product_id` BIGINT(20) NOT NULL,
+  `price` DOUBLE(10,2) NOT NULL,
+  `quantity` INT(11) NOT NULL,
+  `total_price` DOUBLE(10,2) NOT NULL,
+  `status` INT(11) NOT NULL DEFAULT 0 COMMENT '0: 待支付, 1: 已支付, 2: 已发货, 3: 已完成, 4: 已取消',
+  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`seckill_product_id`) REFERENCES `seckill_product` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
