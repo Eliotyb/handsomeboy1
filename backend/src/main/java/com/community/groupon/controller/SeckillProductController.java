@@ -1,5 +1,6 @@
 package com.community.groupon.controller;
 
+import com.community.groupon.common.Result;
 import com.community.groupon.entity.SeckillProduct;
 import com.community.groupon.service.SeckillProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +15,29 @@ public class SeckillProductController {
     private SeckillProductService seckillProductService;
 
     @GetMapping
-    public List<SeckillProduct> findAll() {
-        return seckillProductService.findAll();
+    public Result<List<SeckillProduct>> findAll() {
+        return Result.success(seckillProductService.findAll());
     }
 
     @GetMapping("/{id}")
-    public SeckillProduct findById(@PathVariable Long id) {
-        return seckillProductService.findById(id);
+    public Result<SeckillProduct> findById(@PathVariable Long id) {
+        return Result.success(seckillProductService.findById(id));
     }
 
     @PostMapping
-    public SeckillProduct save(@RequestBody SeckillProduct seckillProduct) {
-        return seckillProductService.save(seckillProduct);
+    public Result<SeckillProduct> save(@RequestBody SeckillProduct seckillProduct) {
+        return Result.success(seckillProductService.save(seckillProduct));
     }
 
     @PutMapping("/{id}")
-    public SeckillProduct update(@PathVariable Long id, @RequestBody SeckillProduct seckillProduct) {
+    public Result<SeckillProduct> update(@PathVariable Long id, @RequestBody SeckillProduct seckillProduct) {
         seckillProduct.setId(id);
-        return seckillProductService.save(seckillProduct);
+        return Result.success(seckillProductService.save(seckillProduct));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public Result<Void> deleteById(@PathVariable Long id) {
         seckillProductService.deleteById(id);
+        return Result.success();
     }
 }

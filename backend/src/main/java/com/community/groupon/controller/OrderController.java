@@ -1,5 +1,6 @@
 package com.community.groupon.controller;
 
+import com.community.groupon.common.Result;
 import com.community.groupon.entity.Order;
 import com.community.groupon.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +15,29 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public List<Order> findAll() {
-        return orderService.findAll();
+    public Result<List<Order>> findAll() {
+        return Result.success(orderService.findAll());
     }
 
     @GetMapping("/{id}")
-    public Order findById(@PathVariable Long id) {
-        return orderService.findById(id);
+    public Result<Order> findById(@PathVariable Long id) {
+        return Result.success(orderService.findById(id));
     }
 
     @PostMapping
-    public Order save(@RequestBody Order order) {
-        return orderService.save(order);
+    public Result<Order> save(@RequestBody Order order) {
+        return Result.success(orderService.save(order));
     }
 
     @PutMapping("/{id}")
-    public Order update(@PathVariable Long id, @RequestBody Order order) {
+    public Result<Order> update(@PathVariable Long id, @RequestBody Order order) {
         order.setId(id);
-        return orderService.save(order);
+        return Result.success(orderService.save(order));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public Result<Void> deleteById(@PathVariable Long id) {
         orderService.deleteById(id);
+        return Result.success();
     }
 }

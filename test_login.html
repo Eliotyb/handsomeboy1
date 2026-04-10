@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .result {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 登录功能测试</h1>
+    
+    <div class="test-section info">
+        <h3>测试说明</h3>
+        <p>当前数据库状态（从图片中看到）：</p>
+        <ul>
+            <li><strong>yb</strong>: 123456 (明文)</li>
+            <li><strong>admin</strong>: BCrypt加密</li>
+            <li><strong>user1</strong>: BCrypt加密</li>
+            <li><strong>user2</strong>: BCrypt加密</li>
+            <li><strong>user3</strong>: BCrypt加密</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h3>测试登录</h3>
+        <div>
+            <label>用户名：</label>
+            <select id="testUser">
+                <option value="admin">admin (BCrypt密码)</option>
+                <option value="user1">user1 (BCrypt密码)</option>
+                <option value="user2">user2 (BCrypt密码)</option>
+                <option value="user3">user3 (BCrypt密码)</option>
+                <option value="yb">yb (明文密码)</option>
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label>密码：</label>
+            <input type="text" id="testPassword" value="123456" />
+        </div>
+        <div style="margin-top: 10px;">
+            <button onclick="testLogin()">测试登录</button>
+            <button onclick="clearResults()">清除结果</button>
+        </div>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>后端日志检查</h3>
+        <p>查看后端控制台是否有以下警告：</p>
+        <pre>o.s.s.c.bcrypt.BCryptPasswordEncoder : Encoded password does not look like BCrypt</pre>
+        <p>如果看到这个警告，说明数据库中的密码格式有问题。</p>
+    </div>
+
+    <div class="test-section">
+        <h3>修复建议</h3>
+        <p>方案1：将所有用户密码更新为BCrypt加密格式</p>
+        <pre id="fixSql"></pre>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+        
+        const fixSql = `USE community_groupon;
+
+-- 更新所有用户密码为 BCrypt 加密后的 "123456"
+UPDATE \`user\` SET \`password\` = '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH' WHERE \`username\` = 'admin';
+UPDATE \`user\` SET \`password\` = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi' WHERE \`username\` = 'user1';
+UPDATE \`user\` SET \`password\` = '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG' WHERE \`username\` = 'user2';
+UPDATE \`user\` SET \`password\` = '$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW' WHERE \`username\` = 'user3';
+UPDATE \`user\` SET \`password\` = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhW' WHERE \`username\` = 'yb';
+
+-- 验证更新
+SELECT id, username, LEFT(password, 30) as password, name, role FROM \`user\`;`;
+
+        document.getElementById('fixSql').textContent = fixSql;
+
+        async function testLogin() {
+            const username = document.getElementById('testUser').value;
+            const password = document.getElementById('testPassword').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            resultDiv.innerHTML = '<p>正在测试登录...</p>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h4>✅ 登录成功！</h4>
+                        <p><strong>用户：</strong>${data.data.username}</p>
+                        <p><strong>Token：</strong>${data.data.token.substring(0, 50)}...</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h4>❌ 登录失败</h4>
+                        <p><strong>错误信息：</strong>${data.message}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h4>❌ 请求失败</h4>
+                    <p><strong>错误：</strong>${error.message}</p>
+                    <p>请确保后端服务正在运行在 http://localhost:8080</p>
+                `;
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('loginResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

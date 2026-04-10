@@ -5,11 +5,11 @@ spring:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   # 临时注释 Redis 配置以排查问题
-    redis:
-     host: localhost
-     port: 6379
-     password:
-     database: 1
+  # redis:
+  #   host: localhost
+  #   port: 6379
+  #   password:
+  #   database: 1
   security:
     user:
       name: admin
@@ -19,5 +19,5 @@ server:
   port: 8080
 
 jwt:
-  secret: community_groupon_secret
+  secret: community_groupon_secret_key_for_jwt_token_generation_2024_secure
   expiration: 86400000
