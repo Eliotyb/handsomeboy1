@@ -2,15 +2,69 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: () => import('../views/Login.vue'),
     meta: { requiresAuth: false }
   },
   {
-    path: '/',
+    path: '/dashboard',
     name: 'Home',
     component: () => import('../views/Home.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/login',
+    name: 'MobileLogin',
+    component: () => import('../views/MobileLogin.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/mobile/register',
+    name: 'MobileRegister',
+    component: () => import('../views/MobileRegister.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/mobile',
+    name: 'MobileHome',
+    component: () => import('../views/MobileHome.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/category',
+    name: 'MobileCategory',
+    component: () => import('../views/MobileCategory.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/cart',
+    name: 'MobileCart',
+    component: () => import('../views/MobileCart.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/profile',
+    name: 'MobileProfile',
+    component: () => import('../views/MobileProfile.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/seckill-detail',
+    name: 'SeckillDetail',
+    component: () => import('../views/SeckillDetail.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/seckill-success',
+    name: 'SeckillSuccess',
+    component: () => import('../views/SeckillSuccess.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/pay-success',
+    name: 'MobilePaySuccess',
+    component: () => import('../views/MobilePaySuccess.vue'),
     meta: { requiresAuth: true }
   },
   {
@@ -48,9 +102,15 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   
   if (to.meta.requiresAuth && !token) {
-    next('/login')
-  } else if (to.path === '/login' && token) {
-    next('/')
+    if (to.path.startsWith('/mobile')) {
+      next('/mobile/login')
+    } else {
+      next('/')
+    }
+  } else if (to.path === '/' && token) {
+    next('/dashboard')
+  } else if (to.path === '/mobile/login' && token) {
+    next('/mobile')
   } else {
     next()
   }

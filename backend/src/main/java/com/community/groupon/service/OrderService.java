@@ -1,5 +1,6 @@
 package com.community.groupon.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.community.groupon.entity.Order;
 import com.community.groupon.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,20 @@ public class OrderService {
 
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    public long count() {
+        return orderRepository.selectCount(null);
+    }
+    
+    public Double getTotalAmount() {
+        return orderRepository.calculateTotalAmount();
+    }
+
+    public List<Order> findByUserId(Long userId) {
+        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Order::getUserId, userId);
+        wrapper.orderByDesc(Order::getCreateTime);
+        return orderRepository.selectList(wrapper);
     }
 }

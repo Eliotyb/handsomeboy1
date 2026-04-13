@@ -3,11 +3,11 @@
     <div class="login-wrapper">
       <div class="login-left">
         <div class="logo-section">
-          <h1 class="system-title">🛒 社团管理秒杀系统</h1>
+          <h1 class="logo-text">⚡ SECKILLADMIN</h1>
         </div>
         <div class="welcome-section">
-          <h2 class="welcome-title">欢迎登录</h2>
-          <p class="welcome-desc">高效管理 · 便捷团购 · 精准秒杀</p>
+          <h2 class="welcome-title">社团管理<br/>秒杀系统</h2>
+          <p class="welcome-desc">欢迎登录</p>
         </div>
         <div class="illustration-section">
           <img :src="illustrationUrl" alt="Illustration" class="illustration-img" />
@@ -15,40 +15,58 @@
       </div>
       <div class="login-right">
         <div class="login-box">
+          <div class="avatar-section">
+            <div class="avatar-circle">
+              <img :src="avatarUrl" alt="Avatar" class="avatar-img" />
+            </div>
+          </div>
           <div class="login-header">
             <h2 class="login-title">管理员登录</h2>
+            <p class="login-subtitle">输入您的凭据以访问控制面板</p>
           </div>
           <el-form :model="loginForm" :rules="rules" ref="loginFormRef" class="login-form">
             <el-form-item prop="username">
+              <span class="input-label">用户名</span>
               <el-input
                 v-model="loginForm.username"
-                placeholder="请输入账号"
+                placeholder="请输入用户名"
                 size="large"
-                prefix-icon="User"
                 class="login-input"
-              />
+              >
+                <template #prefix>
+                  <el-icon><User /></el-icon>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item prop="password">
+              <span class="input-label">密码</span>
               <el-input
                 v-model="loginForm.password"
                 type="password"
                 placeholder="请输入密码"
                 size="large"
-                prefix-icon="Lock"
                 class="login-input"
                 @keyup.enter="handleLogin"
-              />
+              >
+                <template #prefix>
+                  <el-icon><Lock /></el-icon>
+                </template>
+              </el-input>
             </el-form-item>
             <el-form-item class="remember-item">
-              <el-checkbox v-model="rememberMe">记住我</el-checkbox>
+              <el-checkbox v-model="rememberMe" class="remember-checkbox">记住我</el-checkbox>
               <span class="forgot-password">忘记密码？</span>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" size="large" class="login-button" @click="handleLogin" :loading="loading">
-                登录
+                <span>登录</span>
+                <el-icon class="button-icon"><ArrowRight /></el-icon>
               </el-button>
             </el-form-item>
           </el-form>
+          <div class="login-footer">
+            <p>© 2024 PULSE VELOCITY SECKILL. KINETIC PULSE SYSTEM.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -57,10 +75,17 @@
 
 <script>
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElIcon } from 'element-plus'
+import { ArrowRight, User, Lock } from '@element-plus/icons-vue'
 
 export default {
   name: 'Login',
+  components: {
+    ArrowRight,
+    User,
+    Lock,
+    ElIcon
+  },
   data() {
     return {
       loginForm: {
@@ -73,7 +98,8 @@ export default {
       },
       loading: false,
       rememberMe: false,
-      illustrationUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=e-commerce%20shopping%20cart%20and%20mobile%20phone%20with%20discount%20tags%2C%20coins%20and%20shopping%20bags%2C%20blue%20and%20purple%20gradient%20background%2C%20flat%20vector%20illustration%20style&image_size=landscape_16_9'
+      illustrationUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=speeding%20delivery%20van%20on%20dark%20background%2C%20motion%20blur%2C%20orange%20theme%2C%20dynamic%20scene&image_size=landscape_16_9',
+      avatarUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20avatar%20portrait%2C%20formal%20photo%2C%20business%20person%2C%20square%20image&image_size=square'
     }
   },
   methods: {
@@ -81,14 +107,14 @@ export default {
       this.$refs.loginFormRef.validate((valid) => {
         if (valid) {
           this.loading = true
-          axios.post('/api/auth/login', this.loginForm)
+          axios.post('/api/auth/admin/login', this.loginForm)
             .then(response => {
               const res = response.data
               if (res.code === 200) {
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('userInfo', JSON.stringify(res.data))
                 ElMessage.success('登录成功')
-                this.$router.push('/')
+                this.$router.push('/dashboard')
               } else {
                 ElMessage.error(res.message || '登录失败')
               }
@@ -113,38 +139,41 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #a855f7 100%);
+  background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);
   overflow: hidden;
+  padding: 40px;
 }
 
 .login-wrapper {
-  width: 1000px;
+  width: 1100px;
   display: flex;
   background: white;
-  border-radius: 24px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  border-radius: 32px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 }
 
 .login-left {
   flex: 1;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 50px;
+  background: linear-gradient(135deg, #e65100 0%, #ff6b35 50%, #ff8a65 100%);
+  padding: 60px 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: white;
   position: relative;
+  min-height: 600px;
 }
 
 .logo-section {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
-.system-title {
-  font-size: 32px;
+.logo-text {
+  font-size: 28px;
   font-weight: 700;
   margin: 0;
+  letter-spacing: 2px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -153,40 +182,81 @@ export default {
 }
 
 .welcome-title {
-  font-size: 36px;
-  font-weight: 600;
-  margin: 0 0 10px 0;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
 }
 
 .welcome-desc {
-  font-size: 16px;
-  opacity: 0.9;
+  font-size: 18px;
+  opacity: 0.85;
   margin: 0;
+  font-weight: 500;
 }
 
 .illustration-section {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .illustration-img {
-  max-width: 100%;
-  max-height: 300px;
-  border-radius: 16px;
+  width: 100%;
+  max-height: 280px;
+  border-radius: 20px 20px 0 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.illustration-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to top, rgba(230, 81, 0, 0.3), transparent);
+  pointer-events: none;
 }
 
 .login-right {
-  width: 420px;
-  padding: 60px 50px;
+  width: 480px;
+  padding: 60px 70px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: white;
 }
 
 .login-box {
   width: 100%;
+}
+
+.avatar-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.avatar-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e65100 0%, #ff6b35 100%);
+  padding: 6px;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(230, 81, 0, 0.3);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
 }
 
 .login-header {
@@ -195,25 +265,41 @@ export default {
 }
 
 .login-title {
-  color: #333;
+  color: #5d4037;
+  margin: 0 0 8px 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.login-subtitle {
+  color: #8d6e63;
   margin: 0;
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 14px;
 }
 
 .login-form {
   margin-top: 20px;
 }
 
+.input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8d6e63;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .login-input {
-  border-radius: 28px;
+  border-radius: 32px;
   overflow: hidden;
 }
 
 .login-input :deep(.el-input__wrapper) {
-  border-radius: 28px;
-  padding: 8px 20px;
-  background: #f5f7fa;
+  border-radius: 32px;
+  padding: 10px 24px;
+  background: #fff3e0;
   box-shadow: none;
   border: 2px solid transparent;
   transition: all 0.3s;
@@ -221,7 +307,7 @@ export default {
 
 .login-input :deep(.el-input__wrapper:hover),
 .login-input :deep(.el-input__wrapper.is-focus) {
-  border-color: #667eea;
+  border-color: #e65100;
   background: white;
 }
 
@@ -229,13 +315,23 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.remember-checkbox {
+  color: #8d6e63;
+}
+
+.remember-checkbox :deep(.el-checkbox__label) {
+  color: #8d6e63;
+  font-size: 14px;
 }
 
 .forgot-password {
-  color: #667eea;
+  color: #c62828;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .forgot-password:hover {
@@ -244,17 +340,116 @@ export default {
 
 .login-button {
   width: 100%;
-  border-radius: 28px;
-  height: 50px;
+  border-radius: 32px;
+  height: 56px;
   font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-weight: 700;
+  background: linear-gradient(135deg, #b71c1c 0%, #8d1c00 100%);
   border: none;
   transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(183, 28, 28, 0.4);
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 12px 32px rgba(183, 28, 28, 0.5);
+}
+
+.button-icon {
+  font-size: 18px;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 48px;
+}
+
+.login-footer p {
+  color: #a1887f;
+  font-size: 11px;
+  margin: 0;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 1200px) {
+  .login-wrapper {
+    width: 900px;
+  }
+  
+  .login-left {
+    padding: 50px 40px;
+  }
+  
+  .login-right {
+    width: 420px;
+    padding: 50px 50px;
+  }
+  
+  .welcome-title {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 968px) {
+  .login-container {
+    padding: 20px;
+  }
+  
+  .login-wrapper {
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .login-left {
+    min-height: 400px;
+    padding: 40px 30px;
+  }
+  
+  .login-right {
+    width: 100%;
+    padding: 50px 40px;
+  }
+  
+  .welcome-title {
+    font-size: 36px;
+  }
+  
+  .illustration-img {
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 0;
+  }
+  
+  .login-wrapper {
+    border-radius: 0;
+  }
+  
+  .login-left {
+    padding: 30px 20px;
+  }
+  
+  .login-right {
+    padding: 40px 24px;
+  }
+  
+  .welcome-title {
+    font-size: 28px;
+  }
+  
+  .avatar-circle {
+    width: 100px;
+    height: 100px;
+  }
 }
 </style>

@@ -1,6 +1,7 @@
 package com.community.groupon.controller;
 
 import com.community.groupon.common.Result;
+import com.community.groupon.dto.ActivityWithStockDTO;
 import com.community.groupon.entity.SeckillActivity;
 import com.community.groupon.service.SeckillActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class SeckillActivityController {
     private SeckillActivityService seckillActivityService;
 
     @GetMapping
-    public Result<List<SeckillActivity>> findAll() {
-        return Result.success(seckillActivityService.findAll());
+    public Result<List<ActivityWithStockDTO>> findAll() {
+        return Result.success(seckillActivityService.findAllWithStock());
     }
 
     @GetMapping("/{id}")

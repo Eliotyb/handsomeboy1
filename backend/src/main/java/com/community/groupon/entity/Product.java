@@ -19,6 +19,7 @@ public class Product {
     private Integer stock;
     private String image;
     private Integer status; // 0: 下架, 1: 上架
+    private String category; // 商品分类
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
