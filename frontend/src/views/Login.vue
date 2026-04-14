@@ -66,6 +66,14 @@
           </el-form>
           <div class="login-footer">
             <p>© 2024 PULSE VELOCITY SECKILL. KINETIC PULSE SYSTEM.</p>
+            <div class="social-links">
+              <a href="https://v.douyin.com/A2rDQZ4Uy3Q/" target="_blank" class="douyin-link" title="关注我们的抖音">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 015.2-1.74V7.34a8.27 8.27 0 006.22 3V6.69zM12.5 2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 015.2-1.74V2z"/>
+                </svg>
+                <span>抖音</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -209,7 +217,8 @@ export default {
   max-height: 280px;
   border-radius: 20px 20px 0 0;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
+  clip-path: inset(0 round 20px 20px 0 0);
 }
 
 .illustration-section::after {
@@ -218,9 +227,29 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 40px;
-  background: linear-gradient(to top, rgba(230, 81, 0, 0.3), transparent);
+  height: 70px;
+  background: linear-gradient(to top, 
+    rgba(230, 81, 0, 0.95) 0%, 
+    rgba(255, 107, 53, 0.7) 40%,
+    rgba(255, 138, 101, 0.4) 70%,
+    transparent 100%
+  );
   pointer-events: none;
+  z-index: 10;
+}
+
+.illustration-section::before {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  right: 15px;
+  width: 80px;
+  height: 28px;
+  background: linear-gradient(135deg, #e65100 0%, #ff6b35 50%, #ff8a65 100%);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.5);
+  pointer-events: none;
+  z-index: 11;
 }
 
 .login-right {
@@ -371,10 +400,38 @@ export default {
 .login-footer p {
   color: #a1887f;
   font-size: 11px;
-  margin: 0;
+  margin: 0 0 16px 0;
   line-height: 1.5;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.douyin-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff2c55;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.douyin-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 44, 85, 0.3);
+  border-color: #ff2c55;
+  background: white;
 }
 
 @media (max-width: 1200px) {

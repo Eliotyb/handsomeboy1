@@ -68,6 +68,78 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/mobile/address',
+    name: 'MobileAddress',
+    component: () => import('../views/MobileAddress.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/coupon',
+    name: 'MobileCoupon',
+    component: () => import('../views/MobileCoupon.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/favorites',
+    name: 'MobileFavorites',
+    component: () => import('../views/MobileFavorites.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/history',
+    name: 'MobileHistory',
+    component: () => import('../views/MobileHistory.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/service',
+    name: 'MobileService',
+    component: () => import('../views/MobileService.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/mobile/help',
+    name: 'MobileHelp',
+    component: () => import('../views/MobileHelp.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/mobile/about',
+    name: 'MobileAbout',
+    component: () => import('../views/MobileAbout.vue'),
+    meta: { requiresAuth: false }
+  },
+  {
+    path: '/mobile/order-pending',
+    name: 'MobileOrderPending',
+    component: () => import('../views/MobileOrderPending.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/order-shipping',
+    name: 'MobileOrderShipping',
+    component: () => import('../views/MobileOrderShipping.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/order-received',
+    name: 'MobileOrderReceived',
+    component: () => import('../views/MobileOrderReceived.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/order-review',
+    name: 'MobileOrderReview',
+    component: () => import('../views/MobileOrderReview.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/mobile/after-sale',
+    name: 'MobileAfterSale',
+    component: () => import('../views/MobileAfterSale.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/users',
     name: 'UserList',
     component: () => import('../views/UserList.vue'),
@@ -89,6 +161,24 @@ const routes = [
     path: '/orders',
     name: 'OrderList',
     component: () => import('../views/OrderList.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/data-report',
+    name: 'DataReport',
+    component: () => import('../views/DataReport.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/system-settings',
+    name: 'SystemSettings',
+    component: () => import('../views/SystemSettings.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/db-manager',
+    name: 'DbManager',
+    component: () => import('../views/DbManager.vue'),
     meta: { requiresAuth: true }
   }
 ]

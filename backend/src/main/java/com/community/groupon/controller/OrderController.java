@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -34,10 +33,7 @@ public class OrderController {
     @PostMapping("/create")
     public Result<Map<String, Object>> createOrder(@RequestBody Map<String, Object> body, HttpServletRequest request) {
         try {
-            String token = request.getHeader("Authorization");
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.substring(7);
-            }
+            String token = extractToken(request);
             if (token == null || !redisTokenService.validateToken(token)) {
                 return Result.error("请先登录");
             }
@@ -58,11 +54,15 @@ public class OrderController {
                 order.setUserId(userId);
                 order.setProductId(item.getProductId());
                 order.setSeckillProductId(null);
+                if (body.get("receiverName") != null) order.setReceiverName(body.get("receiverName").toString());
+                if (body.get("receiverPhone") != null) order.setReceiverPhone(body.get("receiverPhone").toString());
+                if (body.get("receiverAddress") != null) order.setReceiverAddress(body.get("receiverAddress").toString());
+                if (body.get("payMethod") != null) order.setPayMethod(body.get("payMethod").toString());
                 order.setPrice(item.getProductPrice().doubleValue());
                 order.setQuantity(item.getQuantity());
                 double itemTotal = item.getProductPrice().doubleValue() * item.getQuantity();
                 order.setTotalPrice(itemTotal);
-                order.setStatus(1);
+                order.setStatus(0);
                 order.setCreateTime(new Date());
                 order.setUpdateTime(new Date());
                 orderService.save(order);
@@ -87,10 +87,7 @@ public class OrderController {
     @PostMapping("/seckill")
     public Result<Map<String, Object>> createSeckillOrder(@RequestBody Map<String, Object> body, HttpServletRequest request) {
         try {
-            String token = request.getHeader("Authorization");
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.substring(7);
-            }
+            String token = extractToken(request);
             if (token == null || !redisTokenService.validateToken(token)) {
                 return Result.error("请先登录");
             }
@@ -108,6 +105,10 @@ public class OrderController {
             order.setUserId(userId);
             order.setProductId(productId);
             order.setSeckillProductId(null);
+            if (body.get("receiverName") != null) order.setReceiverName(body.get("receiverName").toString());
+            if (body.get("receiverPhone") != null) order.setReceiverPhone(body.get("receiverPhone").toString());
+            if (body.get("receiverAddress") != null) order.setReceiverAddress(body.get("receiverAddress").toString());
+            if (body.get("payMethod") != null) order.setPayMethod(body.get("payMethod").toString());
             order.setPrice(price);
             order.setQuantity(quantity);
             order.setTotalPrice(totalAmount);
@@ -140,10 +141,7 @@ public class OrderController {
     @GetMapping("/user/my-orders")
     public Result<List<Order>> getMyOrders(HttpServletRequest request) {
         try {
-            String token = request.getHeader("Authorization");
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.substring(7);
-            }
+            String token = extractToken(request);
             if (token == null || !redisTokenService.validateToken(token)) {
                 return Result.error("请先登录");
             }
@@ -152,6 +150,78 @@ public class OrderController {
         } catch (Exception e) {
             return Result.error("查询失败");
         }
+    }
+
+    @GetMapping("/user/status/{status}")
+    public Result<List<Order>> getOrdersByStatus(@PathVariable Integer status, HttpServletRequest request) {
+        try {
+            String token = extractToken(request);
+            if (token == null || !redisTokenService.validateToken(token)) {
+                return Result.error("请先登录");
+            }
+            Long userId = redisTokenService.getUserId(token);
+            return Result.success(orderService.findByStatus(status, userId));
+        } catch (Exception e) {
+            return Result.error("查询失败");
+        }
+    }
+
+    @PutMapping("/{id}/pay")
+    public Result<Void> payOrder(@PathVariable Long id, @RequestBody(required = false) Map<String, Object> body) {
+        Order order = orderService.findById(id);
+        if (order == null) return Result.error("订单不存在");
+        if (order.getStatus() != 0) return Result.error("订单状态不正确");
+        order.setStatus(1);
+        order.setPayTime(new Date());
+        if (body != null && body.get("payMethod") != null) {
+            order.setPayMethod(body.get("payMethod").toString());
+        }
+        order.setUpdateTime(new Date());
+        orderService.save(order);
+        return Result.success();
+    }
+
+    @PutMapping("/{id}/ship")
+    public Result<Void> shipOrder(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+        Order order = orderService.findById(id);
+        if (order == null) return Result.error("订单不存在");
+        if (order.getStatus() != 1) return Result.error("订单状态不正确");
+        order.setStatus(2);
+        order.setShipTime(new Date());
+        if (body.get("logisticsCompany") != null) order.setLogisticsCompany(body.get("logisticsCompany").toString());
+        if (body.get("logisticsNo") != null) order.setLogisticsNo(body.get("logisticsNo").toString());
+        order.setUpdateTime(new Date());
+        orderService.save(order);
+        return Result.success();
+    }
+
+    @PutMapping("/{id}/receive")
+    public Result<Void> receiveOrder(@PathVariable Long id) {
+        Order order = orderService.findById(id);
+        if (order == null) return Result.error("订单不存在");
+        if (order.getStatus() != 2) return Result.error("订单状态不正确");
+        order.setStatus(3);
+        order.setReceiveTime(new Date());
+        order.setFinishTime(new Date());
+        order.setUpdateTime(new Date());
+        orderService.save(order);
+        return Result.success();
+    }
+
+    @PutMapping("/{id}/cancel")
+    public Result<Void> cancelOrder(@PathVariable Long id, @RequestBody(required = false) Map<String, Object> body) {
+        Order order = orderService.findById(id);
+        if (order == null) return Result.error("订单不存在");
+        if (order.getStatus() > 1) return Result.error("已发货的订单无法取消");
+        order.setStatus(4);
+        if (body != null && body.get("reason") != null) {
+            order.setCancelReason(body.get("reason").toString());
+        } else {
+            order.setCancelReason("用户取消");
+        }
+        order.setUpdateTime(new Date());
+        orderService.save(order);
+        return Result.success();
     }
 
     @PutMapping("/{id}")
@@ -164,5 +234,41 @@ public class OrderController {
     public Result<Void> deleteById(@PathVariable Long id) {
         orderService.deleteById(id);
         return Result.success();
+    }
+
+    @GetMapping("/stats")
+    public Result<Map<String, Object>> getOrderStats(HttpServletRequest request) {
+        try {
+            String token = extractToken(request);
+            Long userId = redisTokenService.getUserId(token);
+            List<Order> orders = orderService.findByUserId(userId);
+            int pendingPayment = 0, pendingShipment = 0, pendingReceive = 0, pendingReview = 0, refund = 0;
+            for (Order o : orders) {
+                switch (o.getStatus()) {
+                    case 0: pendingPayment++; break;
+                    case 1: pendingShipment++; break;
+                    case 2: pendingReceive++; break;
+                    case 3: pendingReview++; break;
+                    case 5: case 6: refund++; break;
+                }
+            }
+            return Result.success(Map.of(
+                "pendingPayment", pendingPayment,
+                "pendingShipment", pendingShipment,
+                "pendingReceive", pendingReceive,
+                "pendingReview", pendingReview,
+                "refund", refund
+            ));
+        } catch (Exception e) {
+            return Result.error("获取统计失败");
+        }
+    }
+
+    private String extractToken(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        return token;
     }
 }

@@ -8,7 +8,7 @@
           <h2 class="user-name">{{ userName }}</h2>
           <p class="user-tag">{{ getRoleText() }}</p>
         </div>
-        <el-button class="settings-btn" circle>
+        <el-button class="settings-btn" circle @click="goToSettings">
           <el-icon><Setting /></el-icon>
         </el-button>
       </div>
@@ -21,35 +21,35 @@
           <span class="more-link" @click="goToOrders">全部订单</span>
         </div>
         <div class="order-stats">
-          <div class="stat-item" @click="goToOrders">
+          <div class="stat-item" @click="$router.push('/mobile/order-pending')">
             <div class="stat-icon">
               <el-icon><Wallet /></el-icon>
             </div>
             <span class="stat-text">待付款</span>
             <span class="stat-badge" v-if="orderStats.pendingPayment > 0">{{ orderStats.pendingPayment }}</span>
           </div>
-          <div class="stat-item" @click="goToOrders">
+          <div class="stat-item" @click="$router.push('/mobile/order-shipping')">
             <div class="stat-icon">
               <el-icon><Van /></el-icon>
             </div>
             <span class="stat-text">待发货</span>
             <span class="stat-badge" v-if="orderStats.pendingShipment > 0">{{ orderStats.pendingShipment }}</span>
           </div>
-          <div class="stat-item" @click="goToOrders">
+          <div class="stat-item" @click="$router.push('/mobile/order-received')">
             <div class="stat-icon">
               <el-icon><Box /></el-icon>
             </div>
             <span class="stat-text">待收货</span>
             <span class="stat-badge" v-if="orderStats.pendingReceive > 0">{{ orderStats.pendingReceive }}</span>
           </div>
-          <div class="stat-item" @click="goToOrders">
+          <div class="stat-item" @click="$router.push('/mobile/order-review')">
             <div class="stat-icon">
               <el-icon><ChatDotRound /></el-icon>
             </div>
             <span class="stat-text">待评价</span>
             <span class="stat-badge" v-if="orderStats.pendingReview > 0">{{ orderStats.pendingReview }}</span>
           </div>
-          <div class="stat-item" @click="goToOrders">
+          <div class="stat-item" @click="$router.push('/mobile/after-sale')">
             <div class="stat-icon">
               <el-icon><RefreshRight /></el-icon>
             </div>
@@ -245,20 +245,28 @@ export default {
     navigateTo(path) {
       this.$router.push(path)
     },
+    goToSettings() {
+      this.$router.push('/mobile/about')
+    },
     goToOrders() {
       this.$router.push('/orders')
     },
     handleMenuClick(type) {
-      const menuMap = {
-        'address': '收货地址',
-        'coupon': '优惠券',
-        'favorite': '我的收藏',
-        'history': '浏览记录',
-        'service': '客服中心',
-        'help': '帮助中心',
-        'about': '关于我们'
+      const routeMap = {
+        'address': '/mobile/address',
+        'coupon': '/mobile/coupon',
+        'favorite': '/mobile/favorites',
+        'history': '/mobile/history',
+        'service': '/mobile/service',
+        'help': '/mobile/help',
+        'about': '/mobile/about'
       }
-      ElMessage.info(menuMap[type] + ' 功能开发中')
+      const route = routeMap[type]
+      if (route) {
+        this.$router.push(route)
+      } else {
+        ElMessage.info('功能开发中')
+      }
     },
     handleLogout() {
       ElMessageBox.confirm('确定要退出登录吗？', '提示', {

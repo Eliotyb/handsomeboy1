@@ -1,6 +1,7 @@
 package com.community.groupon.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.community.groupon.entity.Order;
 import com.community.groupon.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,14 @@ public class OrderService {
         LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Order::getUserId, userId);
         wrapper.orderByDesc(Order::getCreateTime);
+        return orderRepository.selectList(wrapper);
+    }
+
+    public List<Order> findByStatus(Integer status, Long userId) {
+        QueryWrapper<Order> wrapper = new QueryWrapper<>();
+        if (userId != null) wrapper.eq("user_id", userId);
+        if (status != null) wrapper.eq("status", status);
+        wrapper.orderByDesc("create_time");
         return orderRepository.selectList(wrapper);
     }
 }

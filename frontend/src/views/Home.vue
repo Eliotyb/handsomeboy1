@@ -32,13 +32,29 @@
       </nav>
       
       <div class="sidebar-footer">
-        <div class="user-profile">
-          <img :src="avatarUrl" class="user-avatar" alt="管理员" />
-          <div class="user-details">
-            <div class="user-name">管理员</div>
-            <div class="user-role">超级管理员</div>
+        <el-dropdown trigger="click" @command="handleUserCommand">
+          <div class="user-profile">
+            <img :src="avatarUrl" class="user-avatar" alt="管理员" />
+            <div class="user-details">
+              <div class="user-name">管理员</div>
+              <div class="user-role">超级管理员</div>
+            </div>
+            <el-icon class="dropdown-icon"><ArrowDown /></el-icon>
           </div>
-        </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="profile">
+                <el-icon><UserFilled /></el-icon>个人中心
+              </el-dropdown-item>
+              <el-dropdown-item command="settings">
+                <el-icon><Setting /></el-icon>系统设置
+              </el-dropdown-item>
+              <el-dropdown-item command="logout" divided>
+                <el-icon><SwitchButton /></el-icon>退出登录
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <el-button class="create-activity-btn" @click="handleCreate">
           <el-icon><Plus /></el-icon>
           创建秒杀
@@ -135,8 +151,8 @@
                 </div>
                 <div class="table-cell">
                   <div class="action-btns">
-                    <el-button class="action-btn" circle><el-icon><Document /></el-icon></el-button>
-                    <el-button class="action-btn" circle><el-icon><Edit /></el-icon></el-button>
+                    <el-button class="action-btn" circle @click="handleViewActivity(activity)" title="查看详情"><el-icon><Document /></el-icon></el-button>
+                    <el-button class="action-btn" circle @click="handleEditActivity(activity)" title="编辑活动"><el-icon><Edit /></el-icon></el-button>
                   </div>
                 </div>
               </div>
@@ -165,8 +181,8 @@
                 通过智能算法分析用户行为，自动推荐最佳秒杀时间段和商品库存配置。开启智能助手让管理更简单。
               </p>
               <div class="promo-btns">
-                <el-button class="promo-btn primary">立即开启</el-button>
-                <el-button class="promo-btn">查看报告</el-button>
+                <el-button class="promo-btn primary" @click="handlePromoAction('start')">立即开启</el-button>
+                <el-button class="promo-btn" @click="handlePromoAction('report')">查看报告</el-button>
               </div>
             </div>
             <div class="promo-decoration">
@@ -177,7 +193,7 @@
           <div class="quick-actions">
             <h3 class="section-title">快捷操作</h3>
             <div class="action-list">
-              <div class="action-item">
+              <div class="action-item" @click="handleDataReport">
                 <div class="action-icon blue">
                   <el-icon><Document /></el-icon>
                 </div>
@@ -186,7 +202,7 @@
                   <div class="action-desc">下载上一活动成交明细</div>
                 </div>
               </div>
-              <div class="action-item">
+              <div class="action-item" @click="handleNotification">
                 <div class="action-icon yellow">
                   <el-icon><Bell /></el-icon>
                 </div>
@@ -196,7 +212,7 @@
                 </div>
               </div>
             </div>
-            <div class="settings-link">
+            <div class="settings-link" @click="handleSystemSettings">
               <span>进入系统设置</span>
               <el-icon><ArrowRight /></el-icon>
             </div>
@@ -210,15 +226,17 @@
 <script>
 import { 
   Search, Bell, Setting, Plus, Grid, Lightning, UserFilled, 
-  Box, Document, Edit, TrendCharts, ArrowRight
+  Box, Document, Edit, TrendCharts, ArrowRight, ArrowDown,
+  SwitchButton
 } from '@element-plus/icons-vue'
 import axios from 'axios'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 export default {
   name: 'Home',
   components: {
     Search, Bell, Setting, Plus, Grid, Lightning, UserFilled,
-    Box, Document, Edit, TrendCharts, ArrowRight
+    Box, Document, Edit, TrendCharts, ArrowRight, ArrowDown, SwitchButton
   },
   data() {
     return {
@@ -268,6 +286,66 @@ export default {
     },
     handleCreate() {
       this.$router.push('/seckill-activities')
+    },
+    handleUserCommand(command) {
+      switch (command) {
+        case 'profile':
+          ElMessage.info('个人中心功能开发中')
+          break
+        case 'settings':
+          this.$router.push('/system-settings')
+          break
+        case 'logout':
+          this.handleLogout()
+          break
+      }
+    },
+    handleLogout() {
+      ElMessageBox.confirm('确定要退出登录吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        try {
+          const token = localStorage.getItem('token')
+          await axios.post('/api/auth/logout', {}, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          })
+        } catch (e) {
+          console.log('logout error:', e)
+        } finally {
+          localStorage.removeItem('token')
+          localStorage.removeItem('userInfo')
+          this.$router.push('/')
+          ElMessage.success('已安全退出登录')
+        }
+      }).catch(() => {})
+    },
+    handleViewActivity(activity) {
+      ElMessage.info(`查看活动：${activity.name}`)
+      this.$router.push(`/seckill-detail?productId=${activity.id}`)
+    },
+    handleEditActivity(activity) {
+      this.$router.push({ 
+        path: '/seckill-activities',
+        query: { editId: activity.id }
+      })
+    },
+    handleDataReport() {
+      this.$router.push('/data-report')
+    },
+    handleNotification() {
+      ElMessage.info('消息推送功能开发中')
+    },
+    handleSystemSettings() {
+      this.$router.push('/system-settings')
+    },
+    handlePromoAction(action) {
+      if (action === 'start') {
+        ElMessage.success('智能助手功能即将上线！')
+      } else if (action === 'report') {
+        this.handleDataReport()
+      }
     }
   }
 }
@@ -386,6 +464,18 @@ export default {
 .user-role {
   font-size: 11px;
   color: #94a3b8;
+}
+
+.dropdown-icon {
+  margin-left: auto;
+  color: #94a3b8;
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+
+.user-profile:hover .dropdown-icon {
+  transform: rotate(180deg);
+  color: #f97316;
 }
 
 .create-activity-btn {
