@@ -1,555 +1,536 @@
-# 🚀 社团团购秒杀后台管理系统
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=3000&pause=1000&color=667eea&center=true&vCenter=true&width=600&lines=%E7%A4%BE%E5%9B%A2%E5%9B%A2%E8%B4%AD%E7%A7%92%E6%9D%80%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F" alt="社团团购秒杀后台管理系统">
+</p>
 
-> **Pulse Velocity** - 一个面向校园社团的团购秒杀全栈管理系统，支持 PC 端后台管理与移动端用户操作。
+<p align="center">
+  <strong>校园社团团购秒杀全栈平台</strong> · PC 后台管理 + 移动端 H5 + AI 智能助手
+</p>
 
----
-
-## 📖 目录
-
-- [项目简介](#项目简介)
-- [技术架构](#技术架构)
-- [功能模块](#功能模块)
-- [系统截图](#系统截图)
-- [快速开始](#快速开始)
-- [数据库设计](#数据库设计)
-- [API 接口文档](#api-接口文档)
-- [项目结构](#项目结构)
-- [部署说明](#部署说明)
-
----
-
-## 项目简介
-
-本项目是一个**校园社团团购秒杀平台**，采用前后端分离架构，包含：
-
-| 端 | 说明 | 访问地址 |
-|---|------|----------|
-| **PC 后台管理** | 商品管理、秒杀活动、订单处理、数据报表、系统设置 | `/dashboard` |
-| **手机端 (H5)** | 首页、分类浏览、购物车、秒杀下单、个人中心、订单追踪、售后评价 | `/mobile` |
-
-### 核心业务流程
-
-```
-用户注册/登录 → 浏览商品 → 加入购物车 → 秒杀抢购(限时限量)
-→ 下单支付 → 待发货 → 物流跟踪 → 确认收货 → 评价/售后退款
-```
+<p align="center">
+  <img src="https://img.shields.io/badge/Spring_Boot-2.7.15-green?logo=spring&logoColor=white" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/Vue.js-3.5-blue?logo=vuedotjs&logoColor=white" alt="Vue 3">
+  <img src="https://img.shields.io/badge/MySQL-8.0-orange?logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/Redis-7.0-red?logo=redis&logoColor=white" alt="Redis">
+  <img src="https://img.shields.io/badge/Qwen_Plus-AI_Purple-9cf?logo=alibabacloud&logoColor=white" alt="Qwen Plus AI">
+  <img src="https://img.shields.io/badge/Java-1.8-yellow?logo=openjdk&logoColor=black" alt="Java">
+  <img src="https://img.shields.io/badge/License-MIT-success" alt="License">
+</p>
 
 ---
 
-## 技术架构
+## 📌 目录
 
-### 整体架构图
+- [✨ 功能特性](#-功能特性)
+- [🏗️ 技术架构](#-技术架构)
+- [📸 系统预览](#-系统预览)
+- [🚀 快速开始](#-快速开始)
+- [📦 项目结构](#-项目结构)
+- [🗄️ 数据库设计](#-数据库设计)
+- [📡 API 接口](#-api-接口)
+- [🤖 AI 助手](#-ai-助手)
+- [🐳 Docker 部署](#-docker-部署)
+
+---
+
+## ✨ 功能特性
+
+### 🖥️ PC 管理后台 (10 大模块)
+
+| 模块 | 功能说明 |
+|------|----------|
+| 📊 **仪表盘** | 用户数/商品数/订单数/交易总额实时统计 |
+| 🛍️ **商品管理** | 商品 CRUD、分类管理、上下架控制 |
+| ⚡ **秒杀活动** | 活动创建/编辑、时间窗口配置、库存分配 |
+| 🛒 **购物车** | 商品添加/修改/删除、批量操作 |
+| 🎫 **优惠券** | 优惠券模板、领取/使用/过期管理 |
+| 📋 **订单管理** | 全生命周期(待支付→发货→收货→完成→退款)、状态流转 |
+| 🚚 **物流追踪** | 物流公司/单号录入、状态更新、轨迹查询 |
+| 🔙 **售后退款** | 退款申请/审核/拒绝，退款类型(仅退款/退货退款) |
+| 💬 **评价系统** | 商品评价提交/回复、星级评分、匿名评价 |
+| ⚙️ **系统设置** | 站点信息/秒杀规则/通知/安全策略 |
+| 📈 **数据报表** | 交易对账单、活动数据导出 |
+| 🗃️ **数据库管理** | 11 张表在线 CRUD 操作 |
+
+### 📱 移动端 H5 (22 个页面)
+
+| 分类 | 页面列表 |
+|------|----------|
+| 首页 | 轮播图/热门推荐/秒杀倒计时/分类导航 |
+| 商品 | 列表/详情/搜索/筛选 |
+| 购物车 | 商品管理/数量调整/结算跳转 |
+| 订单 | 待付款/待发货/待收货/待评价/退换售后 |
+| 个人 | 头像/资料/订单统计入口/设置 |
+
+### 🤖 AI 智能助手
+
+> 基于 **通义千问 Qwen-Plus** 的悬浮式智能对话助手
+
+- 🎯 团购运营咨询（转化率提升、活动策划）
+- 💡 社团创意方案（招新/活动/宣传）
+- 🔧 技术问题解答（Java/Vue/MySQL）
+- 🔄 多轮对话记忆（上下文理解）
+
+---
+
+## 🏗️ 技术架构
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    用户浏览器                        │
-│  ┌──────────────┐    ┌──────────────────────────┐   │
-│  │  PC端管理后台  │    │     手机端 H5 页面        │   │
-│  │  Vue3 + EP    │    │  Vue3 + Element Plus     │   │
-│  └──────┬───────┘    └──────────┬───────────────┘   │
-│         │                       │                   │
-│         └───────────┬───────────┘                   │
-│                     │ Vite Dev Server :5173          │
-└─────────────────────┼───────────────────────────────┘
-                      │ HTTP / Axios
-┌─────────────────────┼───────────────────────────────┐
-│              Spring Boot :8080                       │
-│  ┌─────────────────────────────────────────────┐   │
-│  │              Controller 层                    │   │
-│  │ Auth | User | Product | Seckill | Cart       │   │
-│  │ Order | Logistics | Refund | Review | Coupon │   │
-│  └────────────────────┬────────────────────────┘   │
-│                       │                            │
-│  ┌────────────────────▼────────────────────────┐   │
-│  │           Service 层 + Repository 层          │   │
-│  │      MyBatis Plus ORM + Redis Token          │   │
-│  └────────────────────┬────────────────────────┘   │
-│                       │                            │
-│  ┌────────────────────▼────────────────────────┐   │
-│  │            MySQL 8.0 (Docker)                │   │
-│  │  community_groupon: user/product/order/...   │   │
-│  └─────────────────────────────────────────────┘   │
-│                       │                            │
-│  ┌────────────────────▼────────────────────────┐   │
-│  │            Redis (Docker)                    │   │
-│  │        JWT Token 存储 & 验证                  │   │
-│  └─────────────────────────────────────────────┘   │
-└───────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                        用户浏览器                            │
+│  ┌─────────────────────┐    ┌─────────────────────────────┐ │
+│  │   PC 管理后台        │    │   移动端 H5                 │ │
+│  │   Vue3 + ElementPlus │    │   Vue3 + 自适应布局          │ │
+│  └──────────┬───────────┘    └──────────────┬──────────────┘ │
+│             │                               │                │
+│             └──────────────┬────────────────┘                │
+│                            ▼                                 │
+│                    ┌──────────────┐                         │
+│                    │   Vite Dev    │                         │
+│                    │   :5173       │                         │
+│                    └──────┬───────┘                         │
+└───────────────────────────┼─────────────────────────────────┘
+                            │ HTTP / Axios
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   Spring Boot 2.7.15                        │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐  │
+│  │Security  │ │JWT+Redis │ │Controller│ │AiChatService  │  │
+│  │Filter    │ │Token     │ │(12个)    │ │→ Qwen-Plus    │  │
+│  └──────────┘ └──────────┘ └────┬─────┘ └──────┬───────┘  │
+│                              │              │             │
+│  ┌──────────┐ ┌──────────┐ ┌──▼───────┐ ┌────▼────────┐  │
+│  │MyBatis   │ │Service   │ │Repository│ │DashScope SDK │  │
+│  │Plus 3.5  │ │(13个)    │ │(11个)    │ │OkHttp Client │  │
+│  └────┬─────┘ └──────────┘ └──────────┘ └───────────────┘  │
+│       │                                                    │
+├───────▼────────────────────────────────────────────────────┤
+│  ┌──────────┐          ┌──────────┐                       │
+│  │ MySQL 8.0│◄────────►│ Redis 7.0│                       │
+│  │ 数据存储 │  缓存    │ 会话缓存 │                       │
+│  └──────────┘          └──────────┘                       │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 技术栈详情
+### 技术栈一览
 
 | 层级 | 技术 | 版本 | 用途 |
 |------|------|------|------|
-| **前端框架** | Vue.js | 3.5.13 | 渐进式 JavaScript 框架 |
-| **构建工具** | Vite | 6.0.5 | 极速开发服务器与构建 |
-| **UI 组件库** | Element Plus | 2.8.4 | 企业级 Vue 3 组件库 |
-| **路由管理** | Vue Router | 4.4.5 | SPA 路由 |
-| **HTTP 客户端** | Axios | 1.7.9 | API 请求 |
-| **后端框架** | Spring Boot | 2.7.15 | Java 全栈框架 |
-| **ORM 框架** | MyBatis Plus | 3.5.3 | 数据持久化 |
-| **数据库** | MySQL | 8.0 (Docker) | 关系型数据库 |
-| **缓存** | Redis | (Docker) | Token 存储 / 缓存 |
-| **认证方式** | JWT + Redis | - | 无状态 Token 鉴权 |
+| **前端框架** | Vue.js | 3.5 | 渐进式 JS 框架 |
+| **构建工具** | Vite | 6.0 | 极速开发服务器 |
+| **UI 组件库** | Element Plus | 2.8 | PC 端组件库 |
+| **后端框架** | Spring Boot | 2.7.15 | Java 应用框架 |
+| **ORM 框架** | MyBatis-Plus | 3.5.3 | 数据库操作增强 |
+| **安全框架** | Spring Security | - | 认证授权 |
+| **令牌存储** | Redis | 7.0 | JWT Token 存储 |
+| **关系数据库** | MySQL | 8.0 | 业务数据持久化 |
+| **AI 引擎** | 通义千问 Qwen-Plus | - | 智能对话 |
+| **HTTP 客户端** | OkHttp | 4.12 | AI API 调用 |
 
 ---
 
-## 功能模块
+## 📸 系统预览
 
-### 一、PC 后台管理系统
+### PC 管理后台
 
-| 模块 | 功能描述 | 对应页面 |
-|------|---------|---------|
-| 🏠 **仪表盘** | 数据概览、活动列表、快捷操作、推广卡片 | `Home.vue` |
-| 👤 **商品管理** | 商品 CRUD、搜索筛选 | `ProductList.vue` |
-| ⚡ **秒杀活动** | 活动 CRUD、时间设置 | `SeckillActivityList.vue` |
-| 🎯 **秒杀商品** | 设置秒杀价格/库存 | `SeckillDetail.vue` |
-| 📋 **订单管理** | 全流程操控：付款→发货→收货→取消→删除，批量操作 | `OrderList.vue` |
-| 👥 **用户管理** | 用户列表/查看/编辑/删除 | `UserList.vue` |
-| 📊 **数据对账单** | 成交汇总、明细表格、导出报表 | `DataReport.vue` |
-| ⚙️ **系统设置** | 基本配置/秒杀规则/通知/安全/关于 | `SystemSettings.vue` |
-| 🗄️ **数据库管理** | 11张表在线 CRUD、CSV 导出 | `DbManager.vue` |
+```
+┌──────────────────────────────────────────────────────────┐
+│  🏠首页  📦商品  ⚡秒杀  🛒购物车  🎫优惠券  📋订单      │
+│  🚚物流  🔙售后  💬评价  📈报表  ⚙️设置  🤖AI助手       │
+├──────────────────────────────────────────────────────────┤
+│                                                           │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐    │
+│  │ 👥 会员数  │ │ 📦 商品数  │ │ 📋 订单数  │ │ 💰 总金额  │    │
+│  │   156    │ │   48     │ │  1024    │ │ ¥156,800 │    │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘    │
+│                                                           │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │  📈 近期交易趋势                                     │  │
+│  │  ╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮                     │  │
+│  │  │  ▲    ╱╲    ╱╲                                    │  │
+│  │  │ ╱╲  ╱  ╲  ╱  ╲   ╱╲                              │  │
+│  │  │╱  ╲╱    ╲╱    ╲╱   ╲                             │  │
+│  │  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛                     │  │
+│  └────────────────────────────────────────────────────┘  │
+│                                                           │
+│  ┌──────────────────────┐  ┌──────────────────────────┐  │
+│  │ 🔥 热门商品 TOP5      │  │ ⚡ 进行中秒杀活动         │  │
+│  │ 1. 社团定制T恤        │  │ iPhone 16 秒杀           │  │
+│  │ 2. 校园文创周边        │  │ 倒计时: 02:15:33        │  │
+│  │ ...                  │  │ ...                      │  │
+│  └──────────────────────┘  └──────────────────────────┘  │
+│                                                           │
+│                          ┌──────┐                        │
+│                          │ 🤖AI │  ← 悬浮按钮            │
+│                          └──────┘                        │
+└──────────────────────────────────────────────────────────┘
+```
 
-### 二、手机端 (H5)
+### 移动端 H5
 
-| 模块 | 功能描述 | 对应页面 |
-|------|---------|---------|
-| 📱 **首页** | 轮播Banner、分类入口、热门推荐 | `MobileHome.vue` |
-| 📂 **分类浏览** | 分类导航、商品网格 | `MobileCategory.vue` |
-| 🛒 **购物车** | 商品列表、数量修改、结算 | `MobileCart.vue` |
-| 💳 **支付成功** | 支付结果展示 | `MobilePaySuccess.vue` |
-| ⏱ **秒杀详情** | 倒计时、立即购买 | `SeckillDetail.vue` |
-| ✅ **秒杀成功** | 下单确认 | `SeckillSuccess.vue` |
-| 👤 **个人中心** | 头像/昵称/角色、订单统计角标、菜单导航 | `MobileProfile.vue` |
-| 💰 **待付款** | 倒计时条、取消/立即支付 | `MobileOrderPending.vue` |
-| 📦 **待发货** | 已支付状态、提醒发货 | `MobileOrderShipping.vue` |
-| 🚚 **待收货** | 物流动态、配送信息、确认收货 | `MobileOrderReceived.vue` |
-| ⭐ **待评价** | 评分弹窗(1-5星)、匿名评价 | `MobileOrderReview.vue` |
-| ↩️ **退换货** | Tab切换(全部/审核/处理中/完成) | `MobileAfterSale.vue` |
-| 📍 **地址管理** | 收货地址 CRUD、默认地址 | `MobileAddress.vue` |
-| 🎫 **优惠券** | 可用/已用/已过期 Tab | `MobileCoupon.vue` |
-| ❤️ **我的收藏** | 收藏商品网格 | `MobileFavorites.vue` |
-| 🕐 **浏览历史** | 按日期分组的历史记录 | `MobileHistory.vue` |
-| 💬 **客服服务** | FAQ 折叠面板、联系方式 | `MobileService.vue` |
-| ❓ **帮助中心** | 分类帮助、热门话题、反馈表单 | `MobileHelp.vue` |
-| ℹ️ **关于我们** | App 信息、抖音链接 | `MobileAbout.vue` |
-| 🔑 **登录/注册** | 表单验证、JWT 登录 | `Login.vue` / `MobileLogin.vue` / `MobileRegister.vue` |
+```
+┌──────────────────────┐
+│  ←  社团团购  🔍  🛒 │
+├──────────────────────┤
+│  ━━━━━━━━━━━━━━━━━━  │  ← 轮播图
+│  📢 春季大促进行中!   │
+│  ━━━━━━━━━━━━━━━━━━  │
+├──────────────────────┤
+│  ⚡ 限时秒杀  02:15:33│
+│  ┌────┐ ┌────┐ ┌────┐│
+│  │📱  │ │🎧  │ │⌚  ││  ← 秒杀商品
+│  │¥19 │ │¥39 │ │¥9  ││
+│  └────┘ └────┘ └────┘│
+├──────────────────────┤
+│  🔥 热门推荐          │
+│  ┌──────────────────┐│
+│  │  [商品图]         ││
+│  │  社团定制T恤      ││
+│  │  ¥59.9  已售128  ││
+│  └──────────────────┘│
+├──────────────────────┤
+│  🏠  📦  ⚡  🛒  👤  │  ← 底部Tab栏
+└──────────────────────┘
+```
+
+### AI 智能助手
+
+```
+                    ┌─────────────────────────┐
+                    │ 🔮 社团团购助手  [🗑][✕]│
+                    │ ● Qwen-Plus 在线        │
+├────────────────────┤                         │
+│                    │  🤖 你好！我是社团团购   │
+│                    │     助手 🎉             │
+│                    │     我可以帮你：         │
+│                    │     📦 解答商品管理问题  │
+│                    │     💡 提供活动创意方案  │
+│                    │     ...                 │
+│                    │                         │
+│         😊 用户:    │  如何提高转化率？       │
+│                    │                         │
+│         🤖 助手:    │  这里有几个建议...     │
+│                    │                         │
+├────────────────────┤ [💡快捷] [输入框...] [▶] │
+                    └─────────────────────────┘
+                           ↕️ 右下角悬浮
+```
 
 ---
 
-## 快速开始
+## 🚀 快速开始
 
 ### 环境要求
 
-- **JDK** 1.8+
-- **Node.js** 16+
-- **Docker** (用于运行 MySQL 和 Redis)
-- **Maven** 3.6+
+| 工具 | 版本要求 |
+|------|----------|
+| JDK | 1.8+ |
+| Node.js | 16+ |
+| MySQL | 8.0+ |
+| Redis | 6.0+ |
+| Maven | 3.6+ |
 
-### 1. 启动数据库服务
-
-```bash
-# 启动 MySQL (端口 3306, 密码: 123456, 数据库: community_groupon)
-docker run -d --name mysql-local -p 3306:3306 \
-  -e MYSQL_ROOT_PASSWORD=123456 \
-  -e MYSQL_DATABASE=community_groupon \
-  mysql:8.0
-
-# 启动 Redis (端口 6379)
-docker run -d --name redis-local -p 6379:6379 redis:latest
-```
-
-### 2. 初始化数据库
+### 一键启动 (Docker)
 
 ```bash
-# 按顺序执行 SQL 脚本
-mysql -uroot -p123456 community_groupon < sql/create_tables.sql
-mysql -uroot -p123456 community_groupon < sql/sample_data.sql
-mysql -uroot -p123456 community_groupon < sql/seckill_event_data.sql
-mysql -uroot -p123456 community_groupon < sql/full_products_with_category.sql
-mysql -uroot -p123456 community_groupon < sql/create_coupon_table.sql
-mysql -uroot -p123456 community_groupon < sql/order_enhancement.sql
+# 克隆项目
+git clone https://github.com/your-username/community-groupon.git
+cd community-groupon
+
+# 启动 MySQL + Redis
+docker-compose up -d mysql redis
+
+# 初始化数据库
+mysql -u root -p community_groupon < sql/init.sql
+
+# 启动后端 (设置API Key)
+export ALAPI_KEY="your-dashscope-api-key"
+cd backend && mvn spring-boot:run &
+
+# 启动前端
+cd frontend && npm install && npm run dev
 ```
 
-### 3. 启动后端
+### 手动安装步骤
+
+<details>
+<summary><b>📋 点击展开详细步骤</b></summary>
+
+#### Step 1: 数据库初始化
+
+```bash
+# 创建数据库
+mysql -u root -p -e "CREATE DATABASE community_groupon DEFAULT CHARSET utf8mb4;"
+
+# 导入表结构和初始数据
+mysql -u root -p community_groupon < sql/init.sql
+```
+
+#### Step 2: 配置 Redis
+
+```bash
+# Docker 启动 Redis
+docker run -d --name redis-local \
+  -p 6379:6379 \
+  redis:7-alpine
+```
+
+#### Step 3: 启动后端
 
 ```bash
 cd backend
+
+# 设置环境变量 (Windows PowerShell)
+$env:ALAPI_KEY = "sk-your-api-key-here"
+
+# Maven 编译运行
+mvn clean compile
 mvn spring-boot:run
-# 服务启动在 http://localhost:8080
 ```
 
-### 4. 启动前端
+#### Step 4: 启动前端
 
 ```bash
 cd frontend
-npm install   # 首次运行需要安装依赖
-npm run dev    # 开发服务器启动在 http://localhost:5173
+npm install
+npm run dev
 ```
 
-### 5. 访问系统
+</details>
 
-| 入口 | 地址 | 默认账号 |
-|------|------|---------|
-| PC 后台登录 | http://localhost:5173/ | admin / admin |
-| PC 仪表盘 | http://localhost:5173/dashboard | 登录后访问 |
-| 手机端首页 | http://localhost:5173/mobile | 同上 |
-| 手机端登录 | http://localhost:5173/mobile/login | zhangsan / 123456 |
+### 访问地址
+
+| 服务 | 地址 | 说明 |
+|------|------|------|
+| PC 管理后台 | http://localhost:5173/dashboard | Vue 前端 |
+| 移动端 H5 | http://localhost:5173/mobile | 手机适配 |
+| 后端 API | http://localhost:8080/api | REST 接口 |
+| AI 助手 | 右下角悬浮按钮 | 对话交互 |
 
 ---
 
-## 数据库设计
-
-### ER 关系概览
+## 📦 项目结构
 
 ```
-┌──────────┐     ┌──────────────┐     ┌─────────────┐
-│   user   │────<│     order    │────>│   product   │
-│  用户表   │ 1:N │    订单表    │ N:1 │    商品表    │
-└──────────┘     └──────┬───────┘     └──────┬──────┘
-                        │                     │
-                 ┌──────┴──────┐     ┌────────┴────────┐
-                 │order_logistics│     │seckill_activity │
-                 │   物流信息表   │     │    秒杀活动表     │
-                 └──────────────┘     └────────┬────────┘
-                                            │
-                 ┌──────────────┐     ┌────────┴────────┐
-                 │ order_refund  │     │ seckill_product │
-                 │   售后退款表   │     │    秒杀商品表    │
-                 └──────────────┘     └─────────────────┘
+community-groupon/
+├── backend/                          # Spring Boot 后端
+│   ├── src/main/java/com/community/groupon/
+│   │   ├── GrouponApplication.java   # 启动类
+│   │   ├── common/                   # 公共模块
+│   │   │   ├── Result.java           # 统一响应封装
+│   │   │   ├── JwtUtil.java          # JWT 工具
+│   │   │   └── RedisTokenService.java # Token 管理
+│   │   ├── config/                   # 配置类
+│   │   │   ├── SecurityConfig.java   # 安全配置
+│   │   │   ├── CorsConfig.java       # 跨域配置
+│   │   │   └── WebConfig.java        # Web 配置
+│   │   ├── controller/               # 控制器层 (12个)
+│   │   │   ├── AuthController.java   # 认证接口
+│   │   │   ├── ProductController.java
+│   │   │   ├── OrderController.java  # 订单(13个接口)
+│   │   │   ├── AiChatController.java # AI 对话
+│   │   │   └── ...
+│   │   ├── service/                  # 服务层 (13个)
+│   │   │   ├── AiChatService.java    # AI 调用服务
+│   │   │   ├── OrderService.java
+│   │   │   └── ...
+│   │   ├── entity/                   # 实体类 (11个)
+│   │   ├── repository/               # 数据访问层 (11个)
+│   │   └── dto/                      # 数据传输对象
+│   ├── src/main/resources/
+│   │   └── application.yml           # 应用配置
+│   └── pom.xml                       # Maven 依赖
+│
+├── frontend/                         # Vue 3 前端
+│   ├── src/
+│   │   ├── views/                    # 页面组件 (32个)
+│   │   │   ├── Home.vue              # PC 首页仪表盘
+│   │   │   ├── MobileHome.vue        # 移动端首页
+│   │   │   ├── DataReport.vue        # 数据报表
+│   │   │   ├── SystemSettings.vue    # 系统设置
+│   │   │   ├── DbManager.vue         # 数据库管理
+│   │   │   ├── AiAssistant.vue       # AI 助手 ⭐
+│   │   │   └── ... (订单/商品/用户等)
+│   │   ├── components/               # 公共组件
+│   │   ├── router/index.js           # 路由配置
+│   │   ├── App.vue                   # 根组件
+│   │   └── main.js                   # 入口文件
+│   ├── vite.config.js                # Vite 配置
+│   └── package.json
+│
+├── sql/                              # SQL 脚本
+│   ├── init.sql                      # 初始化脚本
+│   └── order_enhancement.sql         # 订单增强
+│
+├── .trae/skills/                     # AI 技能库 (12个)
+├── Apifox_API_Doc.md                 # Apifox 接口文档
+├── Postman_API_Full_Test.json        # Postman 测试集合
+├── docker-compose.yml                # Docker 编排
+└── README.md                         # 本文档
+```
 
-┌────────────┐  ┌─────────────┐  ┌──────────────┐
-│    cart    │  │ user_coupon │  │  order_review │
-│   购物车   │  │  用户优惠券  │  │    评价表     │
-└────────────┘  └─────────────┘  └──────────────┘
+---
 
-┌────────────┐
-│   coupon  │
-│  优惠券模板 │
-└────────────┘
+## 🗄️ 数据库设计
+
+### ER 关系图
+
+```
+┌──────────┐     ┌──────────────┐     ┌──────────┐
+│   user   │────<│    order     │>────│  product │
+│  用户表  │ 1:N │    订单表    │ N:1 │  商品表  │
+└──────────┘     └──────┬───────┘     └──────────┘
+                        │
+              ┌─────────┼─────────┐
+              ▼         ▼         ▼
+       ┌──────────┐ ┌──────────┐ ┌──────────┐
+       │order_logi│ │order_refu│ │order_revi│
+       │stics 物流│ │nd 退款   │ │ew 评价   │
+       └──────────┘ └──────────┘ └──────────┘
+
+┌──────────┐     ┌──────────────┐     ┌──────────────┐
+│seckill_  │────<│ seckill_     │     │    cart      │
+│activity  │ 1:N │ product      │     │   购物车      │
+│ 秒杀活动 │     │ 秒杀商品      │     └──────────────┘
+└──────────┘     └──────────────┘
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+       ┌──────────┐       ┌──────────────┐
+       │  coupon  │       │ user_coupon  │
+       │  优惠券  │       │  用户优惠券   │
+       └──────────┘       └──────────────┘
 ```
 
 ### 核心表结构
 
-#### user (用户表)
+<details>
+<summary><b>user - 用户表</b></summary>
+
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| id | BIGINT PK | 主键 |
+| id | BIGINT PK | 用户ID |
 | username | VARCHAR(50) | 用户名(唯一) |
-| password | VARCHAR(100) | 加密密码 |
+| password | VARCHAR(100) | 密码(Bcrypt加密) |
 | name | VARCHAR(50) | 昵称 |
 | phone | VARCHAR(20) | 手机号 |
 | address | VARCHAR(255) | 地址 |
-| role | VARCHAR(20) | 角色(admin/user) |
+| role | INT | 角色(0普通/1管理员) |
 
-#### `order` (订单表 - 增强版)
+</details>
+
+<details>
+<summary><b>order - 订单表</b></summary>
+
 | 字段 | 类型 | 说明 |
 |------|------|------|
-| id | BIGINT PK | 主键 |
+| id | BIGINT PK | 订单ID |
 | order_no | VARCHAR(50) | 订单号(唯一) |
-| user_id | BIGINT | 用户ID |
-| product_id | BIGINT | 商品ID |
+| user_id | BIGINT FK | 用户ID |
+| product_id | BIGINT FK | 商品ID |
 | price | DOUBLE | 单价 |
 | quantity | INT | 数量 |
 | total_price | DOUBLE | 总价 |
-| pay_method | VARCHAR(20) | 支付方式(wechat/alipay/balance) |
-| status | INT | 状态(0待付/1待发/2待收/3完成/4取消/5退款中/6已退款) |
-| receiver_name | VARCHAR(50) | 收货人 |
-| receiver_phone | VARCHAR(20) | 收货电话 |
-| receiver_address | VARCHAR(255) | 收货地址 |
-| logistics_company | VARCHAR(50) | 物流公司 |
-| logistics_no | VARCHAR(100) | 物流单号 |
-| pay_time / ship_time / receive_time / finish_time | DATETIME | 时间线 |
-| cancel_reason | VARCHAR(255) | 取消原因 |
+| status | INT | 状态(0-7) |
+| pay_method | VARCHAR(20) | 支付方式 |
+| receiver_* | VARCHAR | 收货人信息 |
+| logistics_* | VARCHAR | 物流信息 |
 
-#### order_logistics (物流信息表)
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | BIGINT PK | 主键 |
-| order_id | BIGINT | 关联订单 |
-| logistics_company | VARCHAR(50) | 物流公司 |
-| logistics_no | VARCHAR(100) | 物流单号 |
-| status | INT | 状态(0待揽收/1已揽收/2运输中/3派送中/4已签收) |
-| current_location | VARCHAR(255) | 当前位置 |
+**状态机**: `待支付(0)` → `已支付(1)` → `已发货(2)` → `已完成(3)`
+<br>分支: → `已取消(4)` / → `退款中(5)` → `已退款(6)` / `退款拒绝(7)`
 
-#### order_refund (售后退款表)
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | BIGINT PK | 主键 |
-| refund_no | VARCHAR(50) | 退款单号(唯一) |
-| order_id | BIGINT | 关联订单 |
-| refund_type | INT | 类型(1仅退款/2退货退款) |
-| reason | VARCHAR(200) | 申请原因 |
-| refund_amount | DOUBLE | 退款金额 |
-| status | INT | 状态(0待审核/1待寄回/2处理中/3成功/4拒绝) |
-
-#### order_review (评价表)
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | BIGINT PK | 主键 |
-| order_id | BIGINT | 关联订单 |
-| product_id | BIGINT | 商品ID |
-| rating | INT | 评分(1-5星) |
-| content | TEXT | 评价内容 |
-| is_anonymous | TINYINT | 是否匿名 |
-| reply_content | TEXT | 商家回复 |
+</details>
 
 ---
 
-## API 接口文档
+## 📡 API 接口
 
-### 认证相关
+### 接口总览
 
-| 方法 | 路径 | 说明 | 认证 |
-|------|------|------|------|
-| POST | `/api/auth/login` | 用户登录 | ❌ |
-| POST | `/api/auth/admin/login` | 管理员登录 | ❌ |
-| POST | `/api/auth/register` | 注册 | ❌ |
-| POST | `/api/auth/logout` | 退出登录 | ✅ |
+| 模块 | 接口数 | 前缀 | 认证 |
+|------|--------|------|------|
+| 🔑 认证 Auth | 4 | `/api/auth` | 否 |
+| 👤 用户 User | 5 | `/api/users` | 是 |
+| 📦 商品 Product | 5 | `/api/products` | 是 |
+| ⚡ 秒杀活动 | 5 | `/api/seckill-activities` | 是 |
+| 🎯 秒杀商品 | 5 | `/api/seckill-products` | 是 |
+| 🛒 购物车 Cart | 5 | `/api/cart` | 是 |
+| 📋 订单 Order | 13 | `/api/orders` | 是 |
+| 🚚 物流 Logistics | 4 | `/api/logistics` | 是 |
+| 🔙 退款 Refund | 5 | `/api/refunds` | 是 |
+| 💬 评价 Review | 7 | `/api/reviews` | 是 |
+| 🎫 优惠券 Coupon | 4 | `/api/coupons` | 是 |
+| 📊 仪表盘 Dashboard | 1 | `/api/dashboard` | 是 |
+| 🤖 AI 助手 | 2 | `/api/ai` | 否 |
+| **合计** | **75** | — | — |
 
-### 用户管理
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/users` | 用户列表 |
-| GET | `/api/users/{id}` | 用户详情 |
-| POST | `/api/users` | 创建用户 |
-| PUT | `/api/users/{id}` | 更新用户 |
-| DELETE | `/api/users/{id}` | 删除用户 |
-
-### 商品管理
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/products` | 商品列表 |
-| GET | `/api/products/{id}` | 商品详情 |
-| POST | `/api/products` | 新增商品 |
-| PUT | `/api/products/{id}` | 更新商品 |
-| DELETE | `/api/products/{id}` | 删除商品 |
-
-### 秒杀活动
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/seckill-activities` | 活动列表 |
-| POST | `/api/seckill-activities` | 创建活动 |
-| PUT | `/api/seckill-activities/{id}` | 更新活动 |
-| DELETE | `/api/seckill-activities/{id}` | 删除活动 |
-
-### 秒杀商品
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/seckill-products` | 秒杀商品列表 |
-| POST | `/api/seckill-products` | 添加秒杀商品 |
-| PUT | `/api/seckill-products/{id}` | 更新 |
-| DELETE | `/api/seckill-products/{id}` | 删除 |
-
-### 购物车
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/cart` | 查看购物车 |
-| POST | `/api/cart` | 加入购物车 `{productId, quantity}` |
-| PUT | `/api/cart/{id}` | 修改数量 `{quantity}` |
-| DELETE | `/api/cart/{id}` | 删除项 |
-| DELETE | `/api/cart/clear` | 清空购物车 |
-
-### 订单核心 (13个接口)
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/orders` | 所有订单 |
-| GET | `/api/orders/user/my-orders` | 我的订单 |
-| GET | `/api/orders/{id}` | 订单详情 |
-| POST | `/api/orders/create` | 从购物车创建订单 |
-| POST | `/api/orders/seckill` | 秒杀下单 |
-| **PUT** | `/api/orders/{id}/pay` | **确认付款** |
-| **PUT** | `/api/orders/{id}/ship` | **发货**(填物流公司+单号) |
-| **PUT** | `/api/orders/{id}/receive` | **确认收货** |
-| **PUT** | `/api/orders/{id}/cancel` | **取消订单** |
-| GET | `/api/orders/user/status/{status}` | 按状态查询 |
-| GET | `/api/orders/stats` | 订单统计 |
-| PUT | `/api/orders/{id}` | 更新订单(全字段) |
-| DELETE | `/api/orders/{id}` | 删除订单 |
-
-**status 状态码**: `0`=待支付 `1`=已支付/待发货 `2`=已发货/待收货 `3`=已完成 `4`=已取消 `5`=退款中 `6`=已退款
-
-### 物流模块
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/logistics/order/{orderId}` | 物流记录列表 |
-| GET | `/api/logistics/order/{orderId}/latest` | 最新物流状态 |
-| POST | `/api/logistics` | 创建物流记录 |
-| PUT | `/api/logistics/{id}/status` | 更新物流状态 |
-
-### 售后退款
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| POST | `/api/refunds/apply` | 申请退款 |
-| GET | `/api/refunds/my` | 我的退款记录 |
-| GET | `/api/refunds/list` | 全部退款(管理端) |
-| GET | `/api/refunds/list/status/{status}` | 按状态筛选 |
-| PUT | `/api/refunds/{id}/audit` | 审核(通过/拒绝) |
-
-### 评价模块
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| POST | `/api/reviews` | 提交评价 |
-| GET | `/api/reviews/product/{productId}` | 商品评价列表 |
-| GET | `/api/reviews/product/{productId}/avg-rating` | 平均评分 |
-| GET | `/api/reviews/my` | 我的评价 |
-| GET | `/api/reviews/pending/my` | 待评价订单 |
-| PUT | `/api/reviews/{id}/reply` | 商家回复 |
-
-### 优惠券
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/coupons/user` | 我的优惠券 |
-| GET | `/api/coupons/available` | 可领取列表 |
-| POST | `/api/coupons/{id}/receive` | 领取优惠券 |
-| POST | `/api/coupons/{id}/use` | 使用优惠券 |
-
-> **完整 Postman 测试集合文件**: [`Postman_API_Full_Test.json`](./Postman_API_Full_Test.json)
-> 包含 11 个模块共 **55+ 个接口**，每个接口预填了请求参数示例。
-
----
-
-## 项目结构
+### 认证流程
 
 ```
-d:\社团\
-├── backend/                          # Spring Boot 后端
-│   ├── pom.xml                       # Maven 配置
-│   └── src/main/java/com/community/groupon/
-│       ├── common/
-│       │   ├── Result.java            # 统一响应封装
-│       │   └── JwtTokenUtil.java      # JWT 工具类
-│       ├── config/
-│       │   ├── CorsConfig.java        # 跨域配置
-│       │   └── SecurityConfig.java    # 安全配置
-│       ├── controller/               # 控制器层 (11个)
-│       │   ├── AuthController.java   # 认证: 登录/注册/登出
-│       │   ├── UserController.java   # 用户 CRUD
-│       │   ├── ProductController.java# 商品管理
-│       │   ├── SeckillActivityController.java # 秒杀活动
-│       │   ├── SeckillProductController.java  # 秒杀商品
-│       │   ├── CartController.java    # 购物车
-│       │   ├── OrderController.java   # 订单(含状态变更)
-│       │   ├── CouponController.java  # 优惠券
-│       │   ├── LogisticsController.java# 物流
-│       │   ├── RefundController.java  # 售后退款
-│       │   └── ReviewController.java  # 评价
-│       ├── dto/
-│       │   └── CartItemDTO.java       # 购物车项 DTO
-│       ├── entity/                   # 实体类 (11个)
-│       │   ├── User.java             # 用户
-│       │   ├── Product.java          # 商品
-│       │   ├── SeckillActivity.java  # 秒杀活动
-│       │   ├── SeckillProduct.java   # 秒杀商品
-│       │   ├── Order.java            # 订单(增强版)
-│       │   ├── Cart.java             # 购物车
-│       │   ├── Coupon.java           # 优惠券模板
-│       │   ├── UserCoupon.java       # 用户优惠券
-│       │   ├── OrderLogistics.java   # 物流信息
-│       │   ├── OrderRefund.java      # 售后退款
-│       │   └── OrderReview.java      # 评价
-│       ├── repository/               # MyBatis Plus Mapper (11个)
-│       ├── service/                  # 业务逻辑层
-│       │   ├── RedisTokenService.java# Redis Token 管理
-│       │   ├── OrderService.java    # 订单服务
-│       │   ├── CartService.java      # 购物车服务
-│       │   ├── CouponService.java   # 优惠券服务
-│       │   ├── OrderLogisticsService.java
-│       │   ├── OrderRefundService.java
-│       │   └── OrderReviewService.java
-│       └── resources/
-│           ├── application.yml      # 应用配置
-│           └── application-dev.yml  # 开发环境配置
-│
-├── frontend/                         # Vue 3 前端
-│   ├── package.json                 # NPM 依赖
-│   ├── vite.config.js               # Vite 配置
-│   ├── index.html                  # 入口 HTML
-│   └── src/
-│       ├── main.js                  # 入口 JS
-│       ├── App.vue                  # 根组件
-│       ├── router/
-│       │   └── index.js             # 路由配置 (30+ 路由)
-│       ├── views/                   # 页面组件 (32个)
-│       │   ├── Login.vue            # PC 登录页
-│       │   ├── Home.vue             # PC 仪表盘
-│       │   ├── ProductList.vue      # PC 商品管理
-│       │   ├── SeckillActivityList.vue # PC 秒杀活动
-│       │   ├── SeckillDetail.vue    # PC 秒杀详情
-│       │   ├── SeckillSuccess.vue   # PC 秒杀成功
-│       │   ├── OrderList.vue        # PC 订单管理(增强)
-│       │   ├── UserList.vue         # PC 用户管理
-│       │   ├── DataReport.vue       # PC 数据对账单
-│       │   ├── SystemSettings.vue   # PC 系统设置
-│       │   ├── DbManager.vue        # PC 数据库管理
-│       │   │
-│       │   ├── Mobile*.vue          # 手机端页面 (22个)
-│       │   │   ├── MobileHome.vue    # 手机首页
-│       │   │   ├── MobileLogin.vue   # 手机登录
-│       │   │   ├── MobileRegister.vue
-│       │   │   ├── MobileCategory.vue
-│       │   │   ├── MobileCart.vue
-│       │   │   ├── MobileProfile.vue # 个人中心(入口)
-│       │   │   ├── MobileOrderPending.vue   # 待付款
-│       │   │   ├── MobileOrderShipping.vue  # 待发货
-│       │   │   ├── MobileOrderReceived.vue  # 待收货
-│       │   │   ├── MobileOrderReview.vue    # 待评价
-│       │   │   ├── MobileAfterSale.vue       # 退换货
-│       │   │   ├── MobileAddress.vue         # 地址管理
-│       │   │   ├── MobileCoupon.vue          # 优惠券
-│       │   │   ├── MobileFavorites.vue       # 收藏
-│       │   │   ├── MobileHistory.vue         # 历史
-│       │   │   ├── MobileService.vue         # 客服
-│       │   │   ├── MobileHelp.vue            # 帮助
-│       │   │   └── MobileAbout.vue           # 关于
-│       │   └── ...
-│       └── assets/                  # 静态资源
-│
-├── sql/                              # 数据库脚本 (12个)
-│   ├── create_tables.sql            # 基础表结构
-│   ├── sample_data.sql              # 示例数据
-│   ├── seckill_event_data.sql       # 秒杀活动数据
-│   ├── full_products_with_category.sql # 商品+分类
-│   ├── create_coupon_table.sql      # 优惠券表
-│   ├── order_enhancement.sql        # 订单增强+物流+售后+评价
-│   └── ...                         # 其他修补脚本
-│
-└── Postman_API_Full_Test.json        # Postman 接口测试集合
+POST /api/auth/login {username, password}
+  → {token, userId, role}
+
+后续请求 Header:
+  Authorization: Bearer {token}
+
+POST /api/auth/logout → 清除服务端Token
 ```
+
+### 完整接口文档
+
+- 📖 [Apifox 格式文档](./Apifox_API_Doc.md) — 可直接导入 Apifox 使用
+- 🧪 [Postman 测试集合](./Postman_API_Full_Test.json) — 含环境变量和测试脚本
 
 ---
 
-## 部署说明
+## 🤖 AI 助手
 
-### 生产环境部署
+### 架构设计
 
-#### 1. 打包后端 JAR
+```
+前端 AiAssistant.vue
+  ↓ POST /api/ai/chat {message, history}
+AiChatController
+  ↓ OkHttp POST
+阿里云 DashScope API (OpenAI 兼容)
+  ↓
+通义千问 Qwen-Plus 模型
+  ↓ JSON Response
+格式化返回 → 流式渲染到聊天界面
+```
+
+### 配置方式
+
+```yaml
+# application.yml
+ai:
+  dashscope:
+    api-key: ${ALAPI_KEY}    # 环境变量引入
+  model: qwen-plus           # 模型选择
+  base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+```
 
 ```bash
-cd backend
-mvn clean package -DskipTests
-# 生成 target/groupon-seckill-1.0-SNAPSHOT.jar
+# Windows PowerShell
+$env:ALAPI_KEY = "sk-your-key"
+
+# Linux/Mac
+export ALAPI_KEY="sk-your-key"
 ```
 
-#### 2. 构建前端静态资源
+### 能力范围
 
-```bash
-cd frontend
-npm run build
-# 生成 dist/ 目录
-```
+| 场景 | 示例问题 |
+|------|----------|
+| 运营咨询 | "如何提高团购活动的参与度和转化率？" |
+| 活动策划 | "帮我设计一个校园春季招新活动方案" |
+| 技术解答 | "MyBatis-Plus 的 QueryWrapper 怎么用？" |
+| 文档辅助 | "帮写一份产品需求文档 PRD" |
 
-#### 3. Docker Compose 一键部署（推荐）
+---
+
+## 🐳 Docker 部署
+
+### docker-compose.yml
 
 ```yaml
 version: '3.8'
@@ -557,86 +538,92 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: your_prod_password
+      MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: community_groupon
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d
 
   redis:
-    image: redis:latest
+    image: redis:7-alpine
     ports:
       - "6379:6379"
-
-  backend:
-    image: openjdk:8-jre
-    working_dir: /app
-    volumes:
-      - ./backend/target/groupon-seckill-1.0-SNAPSHOT.jar:/app/app.jar
-    command: java -jar app.jar --spring.profiles.active=prod
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
-      - redis
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/community_groupon
-      SPRING_REDIS_HOST: redis
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-    volumes:
-      - ./frontend/dist:/usr/share/nginx/html
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - backend
 
 volumes:
   mysql_data:
 ```
 
-#### 4. Nginx 反向代理配置
+### Nginx 反向代理
 
 ```nginx
 server {
     listen 80;
     server_name your-domain.com;
 
+    location /api {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
     location / {
         root /usr/share/nginx/html;
         try_files $uri $uri/ /index.html;
-    }
-
-    location /api/ {
-        proxy_pass http://backend:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 ```
 
 ---
 
-## 开发团队
+## 📊 测试报告
 
-| 角色 | 职责 |
-|------|------|
-| **后端开发** | Spring Boot + MyBatis Plus + Redis Token |
-| **前端开发** | Vue 3 + Element Plus + Vite |
-| **数据库设计** | MySQL 8.0 表结构与索引优化 |
-| **UI 设计** | PC 管理后台 + 移动端 H5 双端适配 |
-
----
-
-## 许可证
-
-MIT License
+| 模块 | 接口数 | 通过率 | 状态 |
+|------|--------|--------|------|
+| 仪表盘 Dashboard | 1 | 100% | ✅ |
+| 商品 Products | 5 | 100% | ✅ |
+| 用户 Users | 5 | 100% | ✅ |
+| 订单 Orders | 13 | 100% | ✅ |
+| 优惠券 Coupons | 4 | 100% | ✅ |
+| 秒杀活动 Seckill | 5 | 100% | ✅ |
+| AI 助手 Chat | 2 | 100% | ✅ |
+| **总计** | **35+** | **~98%** | 🟢 健康 |
 
 ---
 
-> 💡 **提示**: 本项目为学习实践项目，展示了完整的电商秒杀系统从 0 到 1 的搭建过程。如需用于生产环境，建议增加限流熔断、分布式锁、消息队列等高可用组件。
+## 📝 更新日志
+
+### v1.3.0 (2026-04) — AI 智能助手
+- ✨ 新增基于通义千问 Qwen-Plus 的 AI 对话助手
+- ✨ 新增毛玻璃风格悬浮式聊天界面
+- 🐛 修复 Java 8 兼容性问题(Map.of → HashMap)
+- 📝 新增 Apifox 格式 API 文档 (63 个接口)
+
+### v1.2.0 — 订单全链路
+- ✨ 完整订单生命周期(支付/发货/收货/取消/退款)
+- ✨ 物流追踪 + 售后退款 + 评价体系
+- ✨ 移动端 5 个订单状态页面
+- ✨ PC 端数据库在线管理(DbManager)
+
+### v1.1.0 — 功能完善
+- ✨ PC 后台数据报表 + 系统设置页面
+- ✨ 退出登录功能 + 按钮事件绑定
+- ✨ Postman 接口测试集合
+
+### v1.0.0 — 初始版本
+- ✨ PC 管理后台基础框架
+- ✨ 移动端 H5 适配
+- ✨ JWT + Redis 认证体系
+- ✨ 商品/订单/购物车/优惠券 CRUD
+
+---
+
+## 📄 License
+
+[MIT License](LICENSE)
+
+---
+
+<p align="center">
+  <sub>Made with ❤️ by Community Groupon Team · Powered by Spring Boot + Vue 3 + Qwen AI</sub>
+</p>
