@@ -20,3 +20,9 @@ server:
 jwt:
   secret: community_groupon_secret_key_for_jwt_token_generation_2024_secure
   expiration: 86400000
+
+ai:
+  dashscope:
+    api-key: ${ALAPI_KEY}
+  model: qwen-plus
+  base-url: https://dashscope.aliyuncs.com/compatible-mode/v1

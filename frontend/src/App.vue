@@ -1,10 +1,18 @@
 <template>
-  <router-view />
+  <div id="app-root">
+    <router-view />
+    <AiAssistant />
+  </div>
 </template>
 
 <script>
+import AiAssistant from './components/AiAssistant.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    AiAssistant
+  }
 }
 </script>
 
@@ -19,7 +27,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-#app {
+#app, #app-root {
   min-height: 100vh;
 }
 </style>

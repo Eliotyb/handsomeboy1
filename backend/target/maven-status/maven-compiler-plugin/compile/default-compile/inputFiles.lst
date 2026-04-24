@@ -2,6 +2,7 @@ D:\社团\backend\src\main\java\com\community\groupon\entity\SeckillActivity.jav
 D:\社团\backend\src\main\java\com\community\groupon\service\OrderService.java
 D:\社团\backend\src\main\java\com\community\groupon\repository\CouponRepository.java
 D:\社团\backend\src\main\java\com\community\groupon\entity\OrderReview.java
+D:\社团\backend\src\main\java\com\community\groupon\service\AiChatService.java
 D:\社团\backend\src\main\java\com\community\groupon\service\SeckillProductService.java
 D:\社团\backend\src\main\java\com\community\groupon\repository\CartRepository.java
 D:\社团\backend\src\main\java\com\community\groupon\service\ProductService.java
@@ -51,6 +52,7 @@ D:\社团\backend\src\main\java\com\community\groupon\entity\OrderLogistics.java
 D:\社团\backend\src\main\java\com\community\groupon\controller\AuthController.java
 D:\社团\backend\src\main\java\com\community\groupon\entity\Coupon.java
 D:\社团\backend\src\main\java\com\community\groupon\repository\ProductRepository.java
+D:\社团\backend\src\main\java\com\community\groupon\controller\AiChatController.java
 D:\社团\backend\src\main\java\com\community\groupon\service\CartService.java
 D:\社团\backend\src\main\java\com\community\groupon\config\CorsConfig.java
 D:\社团\backend\src\main\java\com\community\groupon\repository\OrderRefundRepository.java
