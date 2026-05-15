@@ -416,7 +416,8 @@ redisTemplate.execute(new DefaultRedisScript<>(script, Long.class), keys);
 **注册页面 - GPS一键定位**
 
 ![GPS定位](docs/screenshots/gps-location.png)
-<img width="336" height="149" alt="image" src="https://github.com/user-attachments/assets/99ddc3ca-8ded-419e-8ad9-2ab5e9a35ba0" />
+<img width="824" height="665" alt="image" src="https://github.com/user-attachments/assets/27765826-0277-4aef-b1b0-5c99f4d8f6ca" />
+
 
 
 *点击"🎯 获取位置"按钮 → 浏览器请求GPS权限 → 自动定位并填充地址*
@@ -426,6 +427,8 @@ redisTemplate.execute(new DefaultRedisScript<>(script, Long.class), keys);
 ### 🗺️ 地图选点功能演示
 
 <div align="center">
+<img width="208" height="158" alt="image" src="https://github.com/user-attachments/assets/61231aa3-e6b6-4733-9400-93965baf62bd" />
+
 
 **地址管理 - 交互式地图**
 
@@ -441,12 +444,18 @@ redisTemplate.execute(new DefaultRedisScript<>(script, Long.class), keys);
 
 **首页**
 ![首页](docs/screenshots/home.png)
+<img width="400" height="824" alt="image" src="https://github.com/user-attachments/assets/f65d6aa3-e8d0-424a-ad29-47181a441f96" />
+
 
 **秒杀活动**
 ![秒杀](docs/screenshots/seckill.png)
+<img width="402" height="861" alt="image" src="https://github.com/user-attachments/assets/bb4148b0-093f-48c0-823b-53594ec4966b" />
+
 
 **订单列表**
 ![订单](docs/screenshots/orders.png)
+<img width="410" height="875" alt="image" src="https://github.com/user-attachments/assets/283d39c5-673f-4043-9236-929aa392a656" />
+
 
 </div>
 
@@ -754,6 +763,6 @@ copies or substantial portions of the Software.
 
 [回到顶部](#-groupon-seckill---爆款秒杀系统)
 
-**© 2024 Groupon Seckill. All rights reserved.**
+**© 2026 Groupon Seckill. All rights reserved.**
 
 </div>
