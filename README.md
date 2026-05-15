@@ -416,6 +416,8 @@ redisTemplate.execute(new DefaultRedisScript<>(script, Long.class), keys);
 **注册页面 - GPS一键定位**
 
 ![GPS定位](docs/screenshots/gps-location.png)
+<img width="336" height="149" alt="image" src="https://github.com/user-attachments/assets/99ddc3ca-8ded-419e-8ad9-2ab5e9a35ba0" />
+
 
 *点击"🎯 获取位置"按钮 → 浏览器请求GPS权限 → 自动定位并填充地址*
 
